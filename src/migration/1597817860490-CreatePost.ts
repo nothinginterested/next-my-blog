@@ -6,7 +6,10 @@ export class CreatePost1597817860490 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
        return  await queryRunner.createTable(new Table({
             name: 'posts',
-            columns: [{name: 'id', type: 'int', isPrimary: true, isGenerated: true, generationStrategy: 'increment'},
+            columns: [
+                {name: 'id', type: 'int', isPrimary: true,
+                    isGenerated: true,
+                    generationStrategy: 'increment'},
                 {
                     name: 'title',
                     type: 'varchar',
