@@ -1,21 +1,21 @@
-import {MigrationInterface, QueryRunner, Table} from 'typeorm';
+import {MigrationInterface, QueryRunner} from 'typeorm';
+import {Table} from 'typeorm';
 
-export class CreatePosts1591207370002 implements MigrationInterface {
+export class CreateUsers1598270727632 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         return await queryRunner.createTable(new Table({
-            name: 'posts',
+            name: 'users',
             columns: [
                 {name: 'id', isGenerated: true, type: 'int', generationStrategy: 'increment', isPrimary: true},
-                {name: 'title', type: 'varchar'},
-                {name: 'content', type: 'text'},
-                {name: 'authorId', type: 'int'}
+                {name: 'username', type: 'varchar'},
+                {name: 'passwordDigest', type: 'varchar'},
             ]
         }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        return await queryRunner.dropTable('posts')
+        return await queryRunner.dropTable('users');
     }
 
 }

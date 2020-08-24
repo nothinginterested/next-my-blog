@@ -8,22 +8,20 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {User} from './User';
-import {Comment} from './Comment';
+import {Post} from './Post';
 
-@Entity('posts')
-export class Post {
+@Entity('comments')
+export class Comment {
     @PrimaryGeneratedColumn('increment')
     id: number;
-    @Column('varchar')
-    title: string;
     @Column('text')
     content: string;
+    @ManyToOne(type => User, user => user.comments)
+    user: User;
+    @ManyToOne(type => Post, post => post.comments)
+    post: Post;
     @CreateDateColumn()
     createdAt: Date;
     @UpdateDateColumn()
     updatedAt: Date;
-    @ManyToOne(type => User, user => user.posts)
-    author: User;
-    @OneToMany(type => Comment, comment => comment.post)
-    comments: Comment[];
 }

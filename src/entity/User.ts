@@ -2,28 +2,28 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    ManyToOne,
-    OneToMany,
+    JoinColumn, OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {User} from './User';
+import {Post} from './Post';
 import {Comment} from './Comment';
 
-@Entity('posts')
-export class Post {
+@Entity('users')
+export class User {
     @PrimaryGeneratedColumn('increment')
     id: number;
     @Column('varchar')
-    title: string;
-    @Column('text')
-    content: string;
+    username: string;
+    @Column('varchar')
+    passwordDigest: string;
     @CreateDateColumn()
     createdAt: Date;
     @UpdateDateColumn()
     updatedAt: Date;
-    @ManyToOne(type => User, user => user.posts)
-    author: User;
-    @OneToMany(type => Comment, comment => comment.post)
-    comments: Comment[];
+    @OneToMany(type => Post, post => post.author)
+    posts: Post[];
+    @OneToMany(type => Comment, comment => comment.user)
+    comments: Comment[]
 }
