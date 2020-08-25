@@ -1,12 +1,30 @@
-import Head from 'next/head'
-import styles from 'styles/Home.module.css'
-import png from 'asserts/images/Pasted Graphic.png'
-import * as React from 'react';
+import {NextPage} from 'next';
+import Link from 'next/link';
 
-export default function Home() {
-  return (
-    <div>
-      <img src={png} alt=""/>
-    </div>
-  );
-}
+const Home: NextPage = () => {
+    return (
+        <>
+            <div className="cover">
+                {/*<img src="/logo.png" alt=""/>*/}
+                <h1>梁兆璋的个人博客</h1>
+                <p>一个搬砖狗</p>
+                <p><Link href="/posts"><a>文章列表</a></Link></p>
+            </div>
+            <style jsx>{`
+      .cover{
+        height: 100vh;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .cover > img{
+        width: 120px; 
+        height: 120px;
+      }
+      `}</style>
+        </>
+    );
+};
+
+export default Home;
