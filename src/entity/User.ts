@@ -12,6 +12,7 @@ import {Post} from './Post';
 import {Comment} from './Comment';
 import md5 from 'md5';
 import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
+import _ from 'lodash';
 
 @Entity('users')
 export class User {
@@ -75,6 +76,10 @@ export class User {
     @BeforeInsert()
     generatePasswordDigest() {
         this.passwordDigest = md5(this.password);
+    }
+
+    toJSON() {
+        return _.omit(this, ['password', 'errors', 'passwordDigest']);
     }
 
 

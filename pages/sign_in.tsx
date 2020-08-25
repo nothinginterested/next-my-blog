@@ -13,6 +13,7 @@ const SignIn: NextPage = (props) => {
     });
     const onSubmit = useCallback((e) => {
         e.preventDefault();
+        console.log(formData);
         axios.post(`/api/v1/users`, formData)
             .then((res) => {
                 console.log(res);
@@ -26,7 +27,7 @@ const SignIn: NextPage = (props) => {
                     }
                 }
             });
-    }, []);
+    }, [formData]);
     return (
         <>
             <h1>注册</h1>
