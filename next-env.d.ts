@@ -8,10 +8,10 @@ declare module '*.png' {
     const value: string;
     export default value;
 }
-// declare module 'next' {
-//     import {Session} from 'next-iron-session';
-//
-//     interface NextApiRequest {
-//         session: Session
-//     }
-// }
+declare module 'next' {
+    import {Session} from 'next-iron-session';
+
+    interface NextApiRequest {
+        session: Session
+    }
+}
