@@ -38,6 +38,7 @@ const PostsIndex: NextPage<Props> = (props) => {
 };
 export default PostsIndex;
 
+// @ts-ignore
 export const getServerSideProps: GetServerSideProps = withSession(async (context) => {
     const index = context.req.url.indexOf('?');
     const search = context.req.url.substr(index + 1);

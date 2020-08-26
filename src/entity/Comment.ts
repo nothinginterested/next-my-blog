@@ -15,9 +15,9 @@ export class Comment {
     id: number;
     @Column('text')
     content: string;
-    @ManyToOne(type => User, user => user.comments)
+    @ManyToOne('User', 'comments')
     user: User;
-    @ManyToOne(type => Post, post => post.comments)
+    @ManyToOne('Post', 'comments')
     post: Post;
     @CreateDateColumn()
     createdAt: Date;
