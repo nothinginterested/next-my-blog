@@ -16,9 +16,9 @@ export class SignIn {
         const connection = await getDatabaseConnection();
         console.log('------------------');
         const user = await connection.manager.findOne(User, {where: {username: this.username}});
-        // console.log('1111111111');
+        // // console.log('1111111111');
         this.user = user;
-        console.log(user);
+        // console.log(user);
         if (user) {
             if (user.passwordDigest !== md5(this.password)) {
                 this.errors.password.push('密码与用户名不匹配');

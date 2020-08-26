@@ -9,8 +9,6 @@ const Sessions: NextApiHandler = async (req, res) => {
     signIn.username = username;
     signIn.password = password;
     await signIn.validate();
-    console.log(signIn.hasErrors());
-    console.log('signIn.hasErrors()');
     if (signIn.hasErrors()) {
         res.statusCode = 422;
         res.end(JSON.stringify(signIn.errors));
@@ -21,7 +19,6 @@ const Sessions: NextApiHandler = async (req, res) => {
         res.end(JSON.stringify(signIn.user));
     }
 
-    // res.end('hhhhh')
 
 };
 
