@@ -1,10 +1,12 @@
-import {GetServerSideProps, NextPage} from 'next';
+import {GetServerSideProps, NextApiHandler, NextPage} from 'next';
 import {UAParser} from 'ua-parser-js';
 import {Post} from 'src/entity/Post';
 import Link from 'next/link';
 import qs from 'query-string';
 import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
-// import {usePager} from '../../hooks/usePager';
+import {usePager} from '../../hooks/usePager';
+import {User} from '../../src/entity/User';
+import {withSession} from '../../lib/withSession';
 
 type Props = {
     posts: Post[];
@@ -15,7 +17,7 @@ type Props = {
 }
 const PostsIndex: NextPage<Props> = (props) => {
     const {posts, count, page, totalPage} = props;
-    // const {pager} = usePager({page, totalPage})
+    const {pager} = usePager({page, totalPage});
     return (
         <div>
             <h1>文章列表({props.count}) 每页{props.perPage}</h1>
@@ -29,22 +31,29 @@ const PostsIndex: NextPage<Props> = (props) => {
                 </div>
             )}
             <footer>
+                {pager}
             </footer>
         </div>
     );
 };
 export default PostsIndex;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSession(async (context) => {
     const index = context.req.url.indexOf('?');
     const search = context.req.url.substr(index + 1);
     const query = qs.parse(search);
     const page = parseInt(query.page?.toString()) || 1;
     const connection = await getDatabaseConnection();// 第一次链接能不能用 get
     const perPage = 1;
+    const curUser = context.req.session.get('currentUser');
+    const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
+    console.log(resUser);
     const [posts, count] = await connection.manager.findAndCount(Post,
-        {skip: (page - 1) * perPage, take: perPage});
-    console.log(posts);
+        {
+            skip: (page - 1) * perPage, take: perPage, where: {
+                author: resUser[0]
+            }
+        });
 
     return {
         props: {
@@ -54,4 +63,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             totalPage: Math.ceil(count / perPage)
         }
     };
-};
+});

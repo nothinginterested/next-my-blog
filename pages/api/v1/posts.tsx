@@ -5,20 +5,21 @@ import {withSession} from '../../../lib/withSession';
 
 
 const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
-        console.log(req.body);
+         console.log(req.body);
         if (req.method === 'POST') {
             const {title, content} = req.body;
             const post = new Post();
             post.title = title;
             post.content = content;
             const user = req.session.get('currentUser');
-            if (!user) {
-                res.statusCode = 401;
-                res.end();
-                return;
+            if(!user){
+                res.statusCode=401
+                res.end()
+                return
             }
             post.author = user;
             const connection = await getDatabaseConnection();
+            console.log(post);
             await connection.manager.save(post);
             res.json(post);
         }
@@ -26,4 +27,4 @@ const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
     }
 );
 
-export default Posts;
+export default Posts
