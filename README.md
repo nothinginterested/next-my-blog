@@ -23,3 +23,9 @@ CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYP
 
 
 docker exec -it pig号
+
+## 自动部署
+
+```
+ssh lzz-blog@lzzhs 'bash -s' < bin/deploy.s
+```
