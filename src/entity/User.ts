@@ -26,7 +26,7 @@ export class User {
     createdAt: Date;
     @UpdateDateColumn()
     updatedAt: Date;
-    @OneToMany('Post', 'author')
+    @OneToMany(type=>Post, post=>post.author)
     posts: Post[];
     @OneToMany('Comment', 'user')
     comments: Comment[];

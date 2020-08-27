@@ -46,16 +46,21 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
     const page = parseInt(query.page?.toString()) || 1;
     const connection = await getDatabaseConnection();// 第一次链接能不能用 get
     const perPage = 1;
+
+
     const curUser = context.req.session.get('currentUser');
-    const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
-    console.log(resUser);
+    // const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
+    // console.log(resUser);
+    const res=await  connection.manager.find(Post,{
+        relations: ['user']
+    })
+    console.log(res);
     const [posts, count] = await connection.manager.findAndCount(Post,
         {
-            skip: (page - 1) * perPage, take: perPage, where: {
-                author: resUser[0]
-            }
+            skip: (page - 1) * perPage, take: perPage
         });
 
+    console.log(posts);
     return {
         props: {
             posts: JSON.parse(JSON.stringify(posts)),
