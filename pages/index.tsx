@@ -4,10 +4,14 @@ import Link from 'next/link';
 const Home: NextPage = () => {
     return (
         <>
+            <div className="header">
+
+
+            </div>
             <div className="cover">
                 {/*<img src="/logo.png" alt=""/>*/}
-                <h1>梁兆璋的个人博客</h1>
-                <p>一个搬砖狗</p>
+                <h1>梁兆璋</h1>
+                <p >致力于成为全栈的前端小白</p>
                 <p><Link href="/posts"><a>文章列表</a></Link></p>
             </div>
             <style jsx>{`
@@ -17,11 +21,14 @@ const Home: NextPage = () => {
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        background: #212121;
+        color: #DADADA;
       }
       .cover > img{
         width: 120px; 
         height: 120px;
       }
+      
       `}</style>
         </>
     );

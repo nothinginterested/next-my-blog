@@ -16,6 +16,7 @@
     "@babel/cli": "^7.10.5",
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.160",
+    "@types/showdown": "^1.9.3",
     "@types/ua-parser-js": "^0.7.33",
     "axios": "^0.20.0",
     "loadash": "^1.0.0",
@@ -28,7 +29,9 @@
     "query-string": "^6.13.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-mde": "^10.2.1",
     "reflect-metadata": "^0.1.13",
+    "showdown": "^1.9.1",
     "typeorm": "^0.2.25",
     "typescript": "3.9.2",
     "ua-parser-js": "^0.7.21"

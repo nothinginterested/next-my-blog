@@ -49,11 +49,13 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
 
 
     const curUser = context.req.session.get('currentUser');
-    // const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
+    const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
     // console.log(resUser);
+    console.log('----------');
     const res=await  connection.manager.find(Post,{
-        relations: ['user']
+        relations:['author']
     })
+    console.log('---------');
     console.log(res);
     const [posts, count] = await connection.manager.findAndCount(Post,
         {

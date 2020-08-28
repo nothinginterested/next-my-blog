@@ -3,11 +3,12 @@ import {GetServerSideProps, NextPage} from 'next';
 import {Post} from '../../src/entity/Post';
 import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
 
-type Props = {
+type Props = {sh
     post: Post
 }
 const postsShow: NextPage<Props> = (props) => {
     const {post} = props;
+
     return (
         <div>
             <h1>{post.title}</h1>
