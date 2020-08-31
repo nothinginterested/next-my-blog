@@ -3,6 +3,7 @@ import {GetServerSideProps, NextPage} from 'next';
 import {Post} from '../../src/entity/Post';
 import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
 import {useNav} from '../../hooks/useNav';
+import ReactMarkdown from 'react-markdown';
 
 type Props = {
     post: Post
@@ -15,15 +16,20 @@ const postsShow: NextPage<Props> = (props) => {
         <>
             {nav}
             <div className="article-wrapper">
-                <article className="article">
+                <article className="article markdown-body">
                     <h1>{post.title}</h1>
-                    <article dangerouslySetInnerHTML={{__html: post.content}} className="article-content">
+                    <article className='markdown-body'>
+                        <ReactMarkdown source={post.content} escapeHtml={true}/>
                     </article>
                 </article>
             </div>
 
             <style jsx>
                 {`
+ .markdown-body{
+      color: #DADADA!important;
+              
+              } 
           .article-wrapper{
               height: 100vh;
               max-width: 60rem;

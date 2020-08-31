@@ -62,8 +62,10 @@ const save: SaveImageHandler = async function* (data: ArrayBuffer) {
 
 
 const PostsNew: NextPage = () => {
-    const input = '# This is a header\n\nAnd this is a paragraph'
-    const [value, setValue] = React.useState('**Hello world!!!**');
+    const [value, setValue] = React.useState('---\n' +
+        'title: 请输入标题\ ' +
+        '\n' +
+        '---');
     const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>(
         'write'
     );
@@ -73,8 +75,13 @@ const PostsNew: NextPage = () => {
     }, [value]);
     const submit = (value: string) => {
         axios.post(`/api/v1/posts`, {content: value}).then(res => {
-            console.log(res);
+            if (res.status === 401) {
+                alert('请先登录');
+                window.location.href = '/sign_in';
+                return;
+            }
             alert('成功');
+            window.location.href='/posts'
         });
 
 
@@ -102,11 +109,10 @@ const PostsNew: NextPage = () => {
                     saveImage: save
                 }}
             />
-            <article  className='markdown-body'>
-                <ReactMarkdown source={value} escapeHtml={true} />
-
-
+            <article className='markdown-body'>
+                <ReactMarkdown source={value} escapeHtml={true}/>
             </article>
+            <button onClick={() => submit(value)}>fuck</button>
 
             <style jsx>
                 {

@@ -8,24 +8,24 @@ const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
         if (req.method === 'POST') {
             const {content}=req.body
             console.log(content);
-            fm(content)
-            // const {title, content} = req.body;
-            // const post = new Post();
-            // post.title = title;
-            // post.content = content;
-            // const user = req.session.get('currentUser');
-            // if(!user){O
-            //     res.statusCode=401
-            //     res.end()
-            //     return
-            // }
-            // post.author = user;
-            // const connection = await getDatabaseConnection();
-            // console.log(post);
-            // await connection.manager.save(post);
-            // res.json(post);
-            // console.log(req.body);
-            res.end('hhhh')
+            const article=fm(content)
+            const {body,attributes}=article
+            console.log(fm(content));
+            console.log(attributes);
+            const post = new Post();
+            post.title = attributes.title;
+            post.content = body;
+            const user = req.session.get('currentUser');
+            if(!user){
+                res.statusCode=401
+                res.end()
+                return
+            }
+            post.author = user;
+            const connection = await getDatabaseConnection();
+            await connection.manager.save(post);
+            res.json(post);
+            res.end()
         }
 
     }
