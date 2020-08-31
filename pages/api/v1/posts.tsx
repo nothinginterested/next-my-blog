@@ -7,6 +7,7 @@ const fm = require('front-matter')
 const Posts = withSession(async (req: NextApiRequest, res: NextApiResponse) => {
         if (req.method === 'POST') {
             const {content}=req.body
+            console.log(content);
             fm(content)
             // const {title, content} = req.body;
             // const post = new Post();

@@ -4,6 +4,7 @@ import {useForm} from '../../hooks/useForm';
 import ReactMde, {Suggestion, SaveImageHandler} from 'react-mde';
 import * as Showdown from 'showdown';
 import React, {useEffect} from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const loadSuggestions = async (text: string) => {
     return new Promise<Suggestion[]>((accept, reject) => {
@@ -35,7 +36,7 @@ const converter = new Showdown.Converter({
     simplifiedAutoLink: true,
     strikethrough: true,
     tasklists: true,
-    metadata:true
+    metadata: true
 });
 const save: SaveImageHandler = async function* (data: ArrayBuffer) {
     // Promise that waits for "time" milliseconds
@@ -61,6 +62,7 @@ const save: SaveImageHandler = async function* (data: ArrayBuffer) {
 
 
 const PostsNew: NextPage = () => {
+    const input = '# This is a header\n\nAnd this is a paragraph'
     const [value, setValue] = React.useState('**Hello world!!!**');
     const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>(
         'write'
@@ -70,14 +72,13 @@ const PostsNew: NextPage = () => {
         console.log();
     }, [value]);
     const submit = (value: string) => {
-        axios.post(`/api/v1/posts`, {content:value}).then(res => {
+        axios.post(`/api/v1/posts`, {content: value}).then(res => {
             console.log(res);
-            alert('成功')
+            alert('成功');
         });
 
 
     };
-
 
 
     return (
@@ -101,10 +102,23 @@ const PostsNew: NextPage = () => {
                     saveImage: save
                 }}
             />
-            <article dangerouslySetInnerHTML={{__html: converter.makeHtml(value)}}/>
+            <article  className='markdown-body'>
+                <ReactMarkdown source={value} escapeHtml={true} />
 
-            <button onClick={() => submit(value)}>提交</button>
 
+            </article>
+
+            <style jsx>
+                {
+                    `
+    .markdown-body{
+      color: #DADADA!important;
+              
+              }
+`
+                }
+
+            </style>
         </div>
     );
 };

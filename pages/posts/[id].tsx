@@ -31,7 +31,6 @@ const postsShow: NextPage<Props> = (props) => {
               padding: 0 2em 0 2em;
           }
             .article{
-              border: 1px solid red;
               display: flex;
               flex-direction: column;
               justify-content: center;
