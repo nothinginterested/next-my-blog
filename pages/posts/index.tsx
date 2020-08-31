@@ -61,7 +61,7 @@ const PostsIndex: NextPage<Props> = (props) => {
 
 }
       .posts-lists{
-           color: #DADADA;
+               color: #DADADA;
             font-size: 18px;
             display: flex;
             flex-direction: column;
@@ -69,6 +69,7 @@ const PostsIndex: NextPage<Props> = (props) => {
             align-items: flex-start;
             margin-top: 3.2rem;
             margin-left: 4.8rem;
+            margin-bottom: 1.2rem;
       
       }
       .posts-lists > .posts-single{
@@ -91,7 +92,6 @@ const PostsIndex: NextPage<Props> = (props) => {
              max-width: 60rem;
              width:100%;
              margin:0 auto;
-              border: 4px solid red;
 
             }
       .posts-header{
@@ -115,18 +115,6 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
     const page = parseInt(query.page?.toString()) || 1;
     const connection = await getDatabaseConnection();// 第一次链接能不能用 get
     const perPage = 3;
-
-
-    const curUser = (context.req as any).session.get('currentUser');
-
-    const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
-    // console.log(resUser);
-    console.log('----------');
-    const res = await connection.manager.find(Post, {
-        relations: ['author']
-    });
-    console.log('---------');
-    console.log(res);
     const [posts, count] = await connection.manager.findAndCount(Post,
         {
             skip: (page - 1) * perPage, take: perPage,relations:['author']

@@ -37,6 +37,7 @@ export const usePager = (options: Options) => {
             <style jsx>{`
         .wrapper {
           margin: 0 -8px;
+          color: #DADADA;
         }
         .wrapper > a, .wrapper > span{
           margin: 0 8px;
