@@ -18,8 +18,8 @@ const postsShow: NextPage<Props> = (props) => {
             <div className="article-wrapper">
                 <article className="article markdown-body">
                     <h1>{post.title}</h1>
-                    <article className='markdown-body'>
-                        <ReactMarkdown source={post.content} escapeHtml={true}/>
+                    <article className='markdown-body ' >
+                        <ReactMarkdown source={post.content} escapeHtml={true} />
                     </article>
                 </article>
             </div>

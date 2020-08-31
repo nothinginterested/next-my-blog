@@ -5,6 +5,7 @@ import ReactMde, {Suggestion, SaveImageHandler} from 'react-mde';
 import * as Showdown from 'showdown';
 import React, {useEffect} from 'react';
 import ReactMarkdown from 'react-markdown';
+import {useNav} from '../../hooks/useNav';
 
 const loadSuggestions = async (text: string) => {
     return new Promise<Suggestion[]>((accept, reject) => {
@@ -62,6 +63,7 @@ const save: SaveImageHandler = async function* (data: ArrayBuffer) {
 
 
 const PostsNew: NextPage = () => {
+    const nav = useNav();
     const [value, setValue] = React.useState('---\n' +
         'title: 请输入标题\ ' +
         '\n' +
@@ -81,7 +83,7 @@ const PostsNew: NextPage = () => {
                 return;
             }
             alert('成功');
-            window.location.href='/posts'
+            window.location.href = '/posts';
         });
 
 
@@ -90,6 +92,7 @@ const PostsNew: NextPage = () => {
 
     return (
         <div>
+            {nav}
 
             <ReactMde
                 value={value}
@@ -112,7 +115,7 @@ const PostsNew: NextPage = () => {
             <article className='markdown-body'>
                 <ReactMarkdown source={value} escapeHtml={true}/>
             </article>
-            <button onClick={() => submit(value)}>fuck</button>
+            <button onClick={() => submit(value)} className="button-submit">提交</button>
 
             <style jsx>
                 {
@@ -120,6 +123,25 @@ const PostsNew: NextPage = () => {
     .markdown-body{
       color: #DADADA!important;
               
+              }
+              .button-submit{
+                  position: fixed;
+                  right: 7%;
+                  bottom:  7%;
+                  border-radius: 50%;
+                  width: 4rem;
+                  height: 4rem;
+                  background: black;
+                  font-size: 16px;
+                  outline-style: none;
+                  text-decoration: none;
+                  color: #DADADA;
+                  //animation: transform 1.5s ;
+                  
+                  
+              }
+              .button-submit:hover{
+                  transform: scale(1.2);
               }
 `
                 }
