@@ -11,10 +11,8 @@ type props = {
 
 
 const Home: NextPage<props> = (props) => {
-  const nav=useNav()
+    const nav=useNav()
 
-    const {useName} = props;
-    console.log(useName);
     return (
         <>
             {nav}

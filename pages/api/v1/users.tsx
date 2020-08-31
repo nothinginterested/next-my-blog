@@ -10,7 +10,7 @@ const Users: NextApiHandler = withSession(async (req, res) => {
     if (req.method === 'GET') {
         const curUser = (req as any).session.get('currentUser') || '' ;
         console.log(curUser);
-        res.write(JSON.stringify({username:curUser}));
+        res.write(JSON.stringify({username:'curUser'}));
         res.statusCode=200
         res.end();
         console.log('hhhhhhh');
