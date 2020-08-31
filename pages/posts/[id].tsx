@@ -2,19 +2,52 @@ import React from 'react';
 import {GetServerSideProps, NextPage} from 'next';
 import {Post} from '../../src/entity/Post';
 import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
+import {useNav} from '../../hooks/useNav';
 
 type Props = {
     post: Post
 }
 const postsShow: NextPage<Props> = (props) => {
     const {post} = props;
+    const nav = useNav();
 
     return (
-        <div>
-            <h1>{post.title}</h1>
-            <article dangerouslySetInnerHTML={{__html: post.content}}>
-            </article>
-        </div>
+        <>
+            {nav}
+            <div className="article-wrapper">
+                <article className="article">
+                    <h1>{post.title}</h1>
+                    <article dangerouslySetInnerHTML={{__html: post.content}} className="article-content">
+                    </article>
+                </article>
+            </div>
+
+            <style jsx>
+                {`
+          .article-wrapper{
+              height: 100vh;
+              max-width: 60rem;
+              margin: 0 auto;
+              padding: 0 2em 0 2em;
+          }
+            .article{
+              border: 1px solid red;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: flex-start;
+               color: #DADADA;
+
+            }
+            .article > h1 {
+               font-size: 32px;
+               margin-bottom: 1.2rem;
+              
+            }
+                
+                `}
+            </style>
+        </>
     );
 };
 
