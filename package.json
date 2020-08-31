@@ -19,6 +19,7 @@
     "@types/showdown": "^1.9.3",
     "@types/ua-parser-js": "^0.7.33",
     "axios": "^0.20.0",
+    "front-matter": "^4.0.2",
     "loadash": "^1.0.0",
     "lodash": "^4.17.20",
     "md5": "^2.3.0",

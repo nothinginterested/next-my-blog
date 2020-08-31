@@ -1,4 +1,4 @@
-import {GetServerSideProps, NextApiHandler, NextPage} from 'next';
+import {GetServerSideProps, GetServerSidePropsContext, NextApiHandler, NextPage} from 'next';
 import {UAParser} from 'ua-parser-js';
 import {Post} from 'src/entity/Post';
 import Link from 'next/link';
@@ -38,8 +38,7 @@ const PostsIndex: NextPage<Props> = (props) => {
 };
 export default PostsIndex;
 
-// @ts-ignore
-export const getServerSideProps: GetServerSideProps = withSession(async (context) => {
+export const getServerSideProps: GetServerSideProps = withSession(async (context: GetServerSidePropsContext) => {
     const index = context.req.url.indexOf('?');
     const search = context.req.url.substr(index + 1);
     const query = qs.parse(search);
@@ -48,13 +47,14 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
     const perPage = 1;
 
 
-    const curUser = context.req.session.get('currentUser');
+    const curUser = (context.req as any).session.get('currentUser');
+
     const resUser = await connection.manager.find(User, {where: {id: curUser.id}});
     // console.log(resUser);
     console.log('----------');
-    const res=await  connection.manager.find(Post,{
-        relations:['author']
-    })
+    const res = await connection.manager.find(Post, {
+        relations: ['author']
+    });
     console.log('---------');
     console.log(res);
     const [posts, count] = await connection.manager.findAndCount(Post,

@@ -1,15 +1,29 @@
-import {NextPage} from 'next';
+import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next';
 import Link from 'next/link';
+import {withSession} from '../lib/withSession';
 
-const Home: NextPage = () => {
+type props = {
+    useName?: string
+
+}
+
+
+const Home: NextPage<props> = (props) => {
+
+    const {useName} = props;
+    console.log(useName);
     return (
         <>
             <nav className="header">
+
                 <a className="header-home"><Link href="/"><a>梁兆璋</a></Link></a>
                 <ul className="list">
-                    <li>博客</li>
+                    <li><Link href="/posts"><a>博客</a></Link></li>
                     <li>关于</li>
                 </ul>
+                <section>
+                    <span>你好</span>
+                </section>
             </nav>
             <div className="cover">
                 {/*<img src="/logo.png" alt=""/>*/}
@@ -78,3 +92,14 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = withSession (async (context:GetServerSidePropsContext) => {
+
+
+    return {
+        props: {
+            useName: 'xxxx'
+        }
+    };
+
+})
