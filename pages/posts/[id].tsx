@@ -3,7 +3,7 @@ import {GetServerSideProps, NextPage} from 'next';
 import {Post} from '../../src/entity/Post';
 import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
 
-type Props = {sh
+type Props = {
     post: Post
 }
 const postsShow: NextPage<Props> = (props) => {

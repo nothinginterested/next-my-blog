@@ -1,76 +1,31 @@
 import {GetServerSideProps, GetServerSidePropsContext, NextPage} from 'next';
 import Link from 'next/link';
 import {withSession} from '../lib/withSession';
-
+import {useEffect} from 'react';
+import axios, {AxiosError, AxiosResponse} from 'axios';
+import {useNav} from '../hooks/useNav';
 type props = {
-    useName?: string
+    useName : string
 
 }
 
 
 const Home: NextPage<props> = (props) => {
+  const nav=useNav()
 
     const {useName} = props;
     console.log(useName);
     return (
         <>
-            <nav className="header">
-
-                <a className="header-home"><Link href="/"><a>梁兆璋</a></Link></a>
-                <ul className="list">
-                    <li><Link href="/posts"><a>博客</a></Link></li>
-                    <li>关于</li>
-                </ul>
-                <section>
-                    <span>你好</span>
-                </section>
-            </nav>
+            {nav}
             <div className="cover">
                 {/*<img src="/logo.png" alt=""/>*/}
                 <h1>梁兆璋</h1>
-                <p>致力于成为全栈的前端工程师</p>
+                <p >致力于成为全栈的前端工程师</p>
                 <p><Link href="/posts"><a>文章列表</a></Link></p>
             </div>
             <style jsx>{`
-        .header{
-               color: #DADADA;
-               font-size: 22px;
-               width: 100%;
-               height: 4rem;
-               display: flex;
-               flex-direction: row;
-               justify-content: flex-end;
-               position: relative;
-               align-items: center;
-        }
-        .header > a{
-            position: absolute;
-            top:50%;
-            left:16%;
-            transform: translateY(-50%);
-        
-        }
-        .header > .list {
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          flex-direction: row;
-          font-size: 18px;
-          margin-right: 16px;
-        }
-        .header > .list >li{
-          flex-grow: 1;
-          margin-left: 16px;
-        }
-        .header > .list >li:hover{
-         color: #42a5F5;
-         text-decoration: underline;
-        }
-         .header-home:hover{
-         color: #42a5F5;
-         text-decoration: underline;
-         }
-
+       
       .cover{
         height: 100vh;
         display:flex;
@@ -79,7 +34,15 @@ const Home: NextPage<props> = (props) => {
         flex-direction: column;
         background: #212121;
         color: #DADADA;
-        font-size: 32px;
+        font-size: 48px;
+        margin-bottom: 3.2rem;
+      }
+      .cover > h1{
+        margin-bottom: 16px;
+      }
+      .cover >p {
+        font-size: 24px;
+        margin-top: 1.2rem;
       }
       .cover > img{
         width: 120px; 
@@ -93,12 +56,13 @@ const Home: NextPage<props> = (props) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = withSession (async (context:GetServerSidePropsContext) => {
-
+    export const getServerSideProps: GetServerSideProps = withSession (async (context:GetServerSidePropsContext) => {
+    const curUser = (context.req as any).session.get('currentUser');
+    console.log(curUser);
 
     return {
         props: {
-            useName: 'xxxx'
+            useName: curUser ? curUser.username : ''
         }
     };
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useForm} from '../../hooks/useForm';
 import ReactMde, {Suggestion, SaveImageHandler} from 'react-mde';
 import * as Showdown from 'showdown';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const loadSuggestions = async (text: string) => {
     return new Promise<Suggestion[]>((accept, reject) => {
@@ -34,7 +34,8 @@ const converter = new Showdown.Converter({
     tables: true,
     simplifiedAutoLink: true,
     strikethrough: true,
-    tasklists: true
+    tasklists: true,
+    metadata:true
 });
 const save: SaveImageHandler = async function* (data: ArrayBuffer) {
     // Promise that waits for "time" milliseconds
@@ -64,6 +65,18 @@ const PostsNew: NextPage = () => {
     const [selectedTab, setSelectedTab] = React.useState<'write' | 'preview'>(
         'write'
     );
+    useEffect(() => {
+        console.log(typeof value);
+        console.log();
+    }, [value]);
+    const submit = (value: string) => {
+        axios.post(`/api/v1/posts`, {content:value}).then(res => {
+            console.log(res);
+            alert('成功')
+        });
+
+
+    };
 
     const {form} = useForm({
         initFormData: {title: '', content: ''},
@@ -103,6 +116,8 @@ const PostsNew: NextPage = () => {
                 }}
             />
             <article dangerouslySetInnerHTML={{__html: converter.makeHtml(value)}}/>
+
+            <button onClick={() => submit(value)}>提交</button>
 
         </div>
     );
