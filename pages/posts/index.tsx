@@ -7,6 +7,8 @@ import {getDatabaseConnection} from '../../lib/getDataBaseConnection';
 import {usePager} from '../../hooks/usePager';
 import {User} from '../../src/entity/User';
 import {withSession} from '../../lib/withSession';
+import {useNav} from '../../hooks/useNav';
+import dayjs from 'dayjs'
 
 type Props = {
     posts: Post[];
@@ -16,23 +18,91 @@ type Props = {
     totalPage: number;
 }
 const PostsIndex: NextPage<Props> = (props) => {
+    const nav = useNav();
     const {posts, count, page, totalPage} = props;
+    console.log(posts);
     const {pager} = usePager({page, totalPage});
     return (
         <div>
-            <h1>文章列表({props.count}) 每页{props.perPage}</h1>
-            {posts.map(post =>
-                <div>
-                    <Link key={post.id} href={`/posts/${post.id}`}>
-                        <a>
-                            {post.title}
-                        </a>
-                    </Link>
+            {nav}
+            <div className="posts">
+                <div className="posts-content">
+                    <header className="posts-header">
+                        <h1>Posts</h1>
+                    </header>
+                    <div className="posts-lists">
+                        {posts.map(post =>
+                            <div className="posts-single">
+                                <p className="posts-single-date"> {dayjs(post.createdAt).format('MMMM DD,YYYY')}</p>
+                                <Link key={post.id} href={`/posts/${post.id}`} >
+
+                                    <a>
+                                        {post.title}
+                                    </a>
+                                </Link>
+                                <p className="posts-single-author">author:  {post.author.username}</p>
+                            </div>
+                        )}
+                    </div>
+
+                    <footer>
+                        {pager}
+                    </footer>
                 </div>
-            )}
-            <footer>
-                {pager}
-            </footer>
+            </div>
+
+
+            <style jsx>
+                {
+                    `
+        .posts{
+        
+        margin-top: 1.6rem;
+
+}
+      .posts-lists{
+           color: #DADADA;
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 3.2rem;
+            margin-left: 4.8rem;
+      
+      }
+      .posts-lists > .posts-single{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.2rem;
+       
+      }
+      
+      .posts-lists > .posts-single>.posts-single-date{
+          margin-right: 1.2rem;
+      
+      }.posts-lists > .posts-single>.posts-single-author{
+          margin-left: 1.2rem;
+      
+      }
+        .posts-content{
+             max-width: 60rem;
+             width:100%;
+             margin:0 auto;
+              border: 4px solid red;
+
+            }
+      .posts-header{
+           color: #DADADA;
+            font-size: 32px;
+      }            
+
+`
+                }
+
+            </style>
         </div>
     );
 };
@@ -44,7 +114,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
     const query = qs.parse(search);
     const page = parseInt(query.page?.toString()) || 1;
     const connection = await getDatabaseConnection();// 第一次链接能不能用 get
-    const perPage = 1;
+    const perPage = 3;
 
 
     const curUser = (context.req as any).session.get('currentUser');
@@ -59,7 +129,7 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
     console.log(res);
     const [posts, count] = await connection.manager.findAndCount(Post,
         {
-            skip: (page - 1) * perPage, take: perPage
+            skip: (page - 1) * perPage, take: perPage,relations:['author']
         });
 
     console.log(posts);
