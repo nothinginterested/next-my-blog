@@ -5,8 +5,10 @@ import {withSession} from '../lib/withSession';
 import {User} from '../src/entity/User';
 import {useForm} from '../hooks/useForm';
 import qs from 'query-string';
+import {useNav} from '../hooks/useNav';
 
 const SignIn: NextPage<{ user: User }> = (props) => {
+    const nav = useNav();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -26,7 +28,7 @@ const SignIn: NextPage<{ user: User }> = (props) => {
             success: () => {
                 window.alert('登录成功');
                 // const query = qs.parse(window.location.search.substr(1));
-                window.location.href = '/'
+                window.location.href = '/';
 
             }
         }
@@ -35,8 +37,9 @@ const SignIn: NextPage<{ user: User }> = (props) => {
 
 
     return (
-        form
-
+        <>{nav}
+            {form}
+        </>
     );
 };
 
