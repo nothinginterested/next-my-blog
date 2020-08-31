@@ -8,7 +8,7 @@ import {usePager} from '../../hooks/usePager';
 import {User} from '../../src/entity/User';
 import {withSession} from '../../lib/withSession';
 import {useNav} from '../../hooks/useNav';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 type Props = {
     posts: Post[];
@@ -34,13 +34,13 @@ const PostsIndex: NextPage<Props> = (props) => {
                         {posts.map(post =>
                             <div className="posts-single">
                                 <p className="posts-single-date"> {dayjs(post.createdAt).format('MMMM DD,YYYY')}</p>
-                                <Link key={post.id} href={`/posts/${post.id}`} >
+                                <Link key={post.id} href={`/posts/${post.id}`}>
 
                                     <a>
                                         {post.title}
                                     </a>
                                 </Link>
-                                <p className="posts-single-author">author:  {post.author.username}</p>
+                                <p className="posts-single-author">author: {post.author.username}</p>
                             </div>
                         )}
                     </div>
@@ -117,7 +117,9 @@ export const getServerSideProps: GetServerSideProps = withSession(async (context
     const perPage = 3;
     const [posts, count] = await connection.manager.findAndCount(Post,
         {
-            skip: (page - 1) * perPage, take: perPage,relations:['author']
+            skip: (page - 1) * perPage, take: perPage, relations: ['author'], order: {
+                createdAt: -1
+            }
         });
 
     console.log(posts);
