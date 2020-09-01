@@ -9,7 +9,6 @@ export const useNav = () => {
     const [userName, setUserName] = useState('');
     useEffect(() => {
         axios.get('/api/v1/users').then((res: AxiosResponse<res>) => {
-            console.log('hhhhh');
             setUserName(res.data.username);
         });
     }, [userName]);
@@ -19,6 +18,8 @@ export const useNav = () => {
                 <p className="header-home"><Link href="/"><a>梁兆璋</a></Link></p>
                 <ul className="list">
                     <li><Link href="/posts"><a>博客</a></Link></li>
+                    {userName ? '' : <li><Link href="/sign_in"><a>登录</a></Link></li>}
+                    {userName ? '' : <li><Link href="/sign_up"><a>注册</a></Link></li>}
                     <li>关于</li>
                 </ul>
                 <section className="header-user">
