@@ -10,12 +10,10 @@ const Users: NextApiHandler = withSession(async (req, res) => {
     if (req.method === 'GET') {
         const curUser = (req as any).session.get('currentUser') || '' ;
 
-        console.log('curUser.username');
-        console.log(curUser.username);
+
         res.write(JSON.stringify({username:curUser.username}));
         res.statusCode=200
         res.end();
-        console.log('hhhhhhh');
     }else {
         const {username, password, passwordConfirmation} = req.body;
         const connection = await getDatabaseConnection();// 第一次链接能不能用 get
