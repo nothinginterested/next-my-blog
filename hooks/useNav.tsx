@@ -18,6 +18,7 @@ export const useNav = () => {
                 <p className="header-home"><Link href="/"><a>梁兆璋</a></Link></p>
                 <ul className="list">
                     <li><Link href="/posts"><a>博客</a></Link></li>
+
                     <li><Link href="/posts/new"><a>新增</a></Link></li>
                     {userName ? '' : <li><Link href="/sign_in"><a>登录</a></Link></li>}
                     {userName ? '' : <li><Link href="/sign_up"><a>注册</a></Link></li>}
