@@ -5,7 +5,7 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 import App from 'next/app'
 import {GetServerSideProps, GetServerSidePropsContext} from "next";
 import {withSession} from "../lib/withSession";
-import 'github-markdown-css'
+import 'styles/github.css'
 
 function MyApp({Component, pageProps, props}) {
   return (

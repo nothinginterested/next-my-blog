@@ -18,7 +18,7 @@ const postsShow: NextPage<Props> = (props) => {
             <div className="article-wrapper">
                 <article className="article markdown-body">
                     <h1>{post.title}</h1>
-                    <article className='markdown-body ' >
+                    <article className='markdown-body' >
                         <ReactMarkdown source={post.content} escapeHtml={true} />
                     </article>
                 </article>
@@ -28,8 +28,17 @@ const postsShow: NextPage<Props> = (props) => {
                 {`
  .markdown-body{
       color: #DADADA!important;
-              
+      
               } 
+.markdown-body .highlight pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: black!important;
+  border-radius: 3px;
+}
           .article-wrapper{
               height: 100vh;
               max-width: 60rem;
