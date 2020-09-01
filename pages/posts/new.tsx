@@ -1,5 +1,5 @@
 import {NextPage} from 'next';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {useForm} from '../../hooks/useForm';
 import ReactMde, {Suggestion, SaveImageHandler} from 'react-mde';
 import * as Showdown from 'showdown';
@@ -77,14 +77,20 @@ const PostsNew: NextPage = () => {
     }, [value]);
     const submit = (value: string) => {
         axios.post(`/api/v1/posts`, {content: value}).then(res => {
-            if (res.status === 401) {
-                alert('请先登录');
-                window.location.href = '/sign_in';
-                return;
-            }
             alert('成功');
             window.location.href = '/posts';
-        });
+        },err=>{
+            if(err.response){
+                const response: AxiosResponse = err.response;
+                if(response.status===401){
+                    alert('请先登录');
+                    window.location.href = '/sign_in';
+                    return;
+
+                }
+            }
+            console.log(err);
+        })
 
 
     };
